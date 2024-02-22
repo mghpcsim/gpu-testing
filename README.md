@@ -12,6 +12,7 @@ The root volume is 50 GB (gp2) and this instance type comes with a dedicated fis
 of ~200 GB that will be used for datasets.
 
 
+### Initial instance configuration
 ```
 # update the system
 sudo dnf  -y upgrade --refresh
@@ -33,6 +34,7 @@ sudo perl -pi -e "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
 sudo reboot
 ```
 
+### Installing nvidia drivers
 ```
 # add Nvidia repos
 sudo dnf config-manager --add-repo http://developer.download.nvidia.com/compute/cuda/repos/rhel9/$(uname -i)/cuda-rhel9.repo
