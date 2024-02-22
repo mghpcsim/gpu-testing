@@ -77,6 +77,7 @@ sudo systemctl restart containerd docker
 ```
 
 ### Setup and run benchmarks
+```
 # Fetch benchmark tool for SSD_AMP
 wget https://raw.githubusercontent.com/mghpcsim/gpu-testing/master/pytorch/Makefile
 
@@ -91,6 +92,7 @@ make create_data PATH_STORAGE=${PATH_STORAGE}
 
 # Run benchmark
 make benchmark PATH_STORAGE=${PATH_STORAGE}
+```
 
 
 ### g4dn.4xlarge results
