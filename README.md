@@ -76,4 +76,37 @@ sudo nvidia-ctk runtime configure --runtime=containerd
 sudo systemctl restart containerd docker
 ```
 
+### Setup and run benchmarks
+# Fetch benchmark tool for SSD_AMP
+wget https://raw.githubusercontent.com/mghpcsim/gpu-testing/master/pytorch/Makefile
 
+# Set the path to store code and data
+export PATH_STORAGE=/scratch
+
+# Clone repos and pull docker image
+make install PATH_STORAGE=${PATH_STORAGE}
+
+# Pepare data
+make create_data PATH_STORAGE=${PATH_STORAGE}
+
+# Run benchmark
+make benchmark PATH_STORAGE=${PATH_STORAGE}
+
+
+### g4dn.4xlarge results
+
+#### closed GPU drivers
+```
+DLL 2024-02-07 22:45:30.189486 - () avg_img/sec : 78.47830359568704 images/s med_img/sec : 78.46226943054549 images/s min_img/sec : 78.20951905168042 images/s max_img/sec : 78.85041334209333 images/s
+Done benchmarking. Total images: 19200  total time: 244.654     Average images/sec: 78.478      Median images/sec: 78.462
+Training performance = 78.46227264404297 FPS
+DLL 2024-02-07 22:45:30.192908 - (0,) time : 319.8903548717499
+```
+
+#### open GPU drivers
+```
+DLL 2024-02-07 23:29:49.648111 - () avg_img/sec : 77.4660948215365 images/s med_img/sec : 77.45894054556102 images/s min_img/sec : 77.1730385428987 images/s max_img/sec : 77.84095169162816 images/s
+Done benchmarking. Total images: 19200  total time: 247.850     Average images/sec: 77.466      Median images/sec: 77.459
+Training performance = 77.45893859863281 FPS
+DLL 2024-02-07 23:29:49.651626 - (0,) time : 323.97230982780457
+```
