@@ -1,24 +1,24 @@
-PATH_STORAGE ?= "/home/ubuntu"
+PATH_STORAGE ?= "/scratch"
 
 NAME_NGC=pytorch:23.06-py3
 NAME_DATASET=object_detection
-NAME_CONFIG=StorageTest_24GB_v1
+NAME_CONFIG=g4dn.4xlarge
 NAME_MODEL=ssd_amp
 TIME_OUT=3000
-PATH_OUTPUT=results/StorageTest_24GB_v1/PyTorch_SSD_AMP
+PATH_OUTPUT=~/results/${NAME_CONFIG}/PyTorch_SSD_AMP
 
 
 install:
 	docker pull nvcr.io/nvidia/${NAME_NGC} && \
 	cd ${PATH_STORAGE} && \
-	wget https://raw.githubusercontent.com/lambdal/deeplearning-benchmark/master/pytorch/setup.sh && \
+	wget https://raw.githubusercontent.com/mghpcsim/gpu-testing/master/pytorch/setup.sh && \
 	chmod +x setup.sh && \
-	./setup.sh $NAME_NGC
+	./setup.sh ${NAME_NGC}
 
 
 create_data:
 	cd ${PATH_STORAGE}/deeplearning-benchmark/pytorch && \
-	docker run --gpus all --rm -t --shm-size=128g \
+	docker run --gpus all --rm -t --shm-size=31g \
 		-v ${PATH_STORAGE}/DeepLearningExamples/PyTorch:/workspace/benchmark \
 		-v ${PATH_STORAGE}/data:/data \
 		-v ${PATH_STORAGE}/deeplearning-benchmark/pytorch/scripts:/scripts \
@@ -29,7 +29,7 @@ create_data:
 benchmark:
 	cd ${PATH_STORAGE}/deeplearning-benchmark/pytorch && \
 	docker run \
-		--rm --shm-size=128g \
+		--rm --shm-size=31g \
 		--gpus all \
 		-v ${PATH_STORAGE}/DeepLearningExamples/PyTorch:/workspace/benchmark \
 		-v ${PATH_STORAGE}/data:/data \
