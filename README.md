@@ -32,3 +32,19 @@ sudo perl -pi -e "s/SELINUX=enforcing/SELINUX=disabled/" /etc/selinux/config
 # reboot
 sudo reboot
 ```
+
+```
+# add Nvidia repos
+sudo dnf config-manager --add-repo http://developer.download.nvidia.com/compute/cuda/repos/rhel9/$(uname -i)/cuda-rhel9.repo
+
+# install prereqs for dkms drivers
+sudo dnf  -y install kernel-headers-$(uname -r) kernel-devel-$(uname -r) tar bzip2 make automake gcc gcc-c++ pciutils elfutils-libelf-devel libglvnd-opengl libglvnd-glx libglvnd-devel acpid pkgconfig dkms
+
+# install latest version of the closed source driver
+sudo dnf -y module install nvidia-driver:latest-dkms
+# OR the latest version of the open source driver
+sudo dnf module install nvidia-driver:open-dkms
+
+# reboot the system 
+sudo reboot
+```
