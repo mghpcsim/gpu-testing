@@ -50,3 +50,30 @@ sudo dnf module install nvidia-driver:open-dkms
 # reboot the system 
 sudo reboot
 ```
+
+### Setup docker, containerd, and nvidia container toolkit
+```
+# add docker repo
+sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+# install docker and containerd, add $USER to docker group and load new group
+sudo dnf -y install docker-ce docker-ce-cli containerd.io
+sudo usermod -aG docker $(whoami)
+newgrp docker
+
+# enable, start, and test docker
+sudo systemctl enable docker --now
+sudo systemctl status docker
+docker run hello-world
+
+# add nvidia container toolkit repo
+curl -s -L https://nvidia.github.io/libnvidia-container/stable/rpm/nvidia-container-toolkit.repo |   sudo tee /etc/yum.repos.d/nvidia-container-toolkit.repo
+sudo yum-config-manager --enable nvidia-container-toolkit-experimental
+sudo dnf install -y nvidia-container-toolkit
+
+# configure nvitida toolkit to use containerd runtime and restart containerd and docker
+sudo nvidia-ctk runtime configure --runtime=containerd
+sudo systemctl restart containerd docker
+```
+
+
